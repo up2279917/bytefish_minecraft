@@ -1,0 +1,34 @@
+name: ByteCore
+version: "${project.version}"
+main: com.bytefish.bytecore.ByteCore
+api-version: "1.20"
+description: Core functionality for ByteFish server
+author: ByteFish
+
+commands:
+  shophelp:
+    description: Shows help for creating shops
+    usage: /shophelp
+  locationhelp:
+    description: Shows help for creating locations
+    usage: /locationhelp
+  warn:
+    description: Warn a player
+    usage: /warn <player> <reason>
+  rules:
+    description: Display server rules
+    usage: /rules
+  msg:
+    description: Message a player
+    usage: /msg <player> <message>
+    aliases: [w, tell, whisper, minecraft:msg, minecraft:w, minecraft:tell]
+  checklocations:
+    description: Validates all location markers and removes invalid ones
+    usage: /checklocations
+    permission: bytecore.checklocations
+    permission-message: You don't have permission to use this command!
+
+permissions:
+  bytecore.checklocations:
+    description: Allows validating and cleaning up location markers
+    default: op
