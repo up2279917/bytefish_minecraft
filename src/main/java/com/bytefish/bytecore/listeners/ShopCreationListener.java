@@ -50,6 +50,18 @@ public class ShopCreationListener implements Listener {
 			return;
 		}
 
+		if (shopManager.isShop(attachedBlock.getLocation())) {
+			event
+				.getPlayer()
+				.sendMessage(
+					Component.text("You cannot edit this shop sign!").color(
+						NamedTextColor.RED
+					)
+				);
+			event.setCancelled(true);
+			return;
+		}
+
 		String[] lines = new String[4];
 		for (int i = 0; i < 4; i++) {
 			lines[i] = textSerializer.serialize(event.line(i));
