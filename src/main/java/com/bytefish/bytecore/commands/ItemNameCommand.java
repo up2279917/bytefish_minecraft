@@ -19,7 +19,11 @@ public class ItemNameCommand implements CommandExecutor {
 		String[] args
 	) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage("This command can only be used by players.");
+			sender.sendMessage(
+				Component.text(
+					"This command can only be used by players."
+				).color(NamedTextColor.RED)
+			);
 			return true;
 		}
 
@@ -28,7 +32,7 @@ public class ItemNameCommand implements CommandExecutor {
 
 		if (material == Material.AIR) {
 			player.sendMessage(
-				Component.text("You are not holding an item!").color(
+				Component.text("You are not holding any item.").color(
 					NamedTextColor.RED
 				)
 			);
@@ -36,10 +40,17 @@ public class ItemNameCommand implements CommandExecutor {
 		}
 
 		int itemId = material.getId(); // Get the item ID
+		String itemIdString = String.valueOf(itemId); // Convert item ID to String
+
 		player.sendMessage(
-			Component.text(material.name() + " " + itemId).color(
-				NamedTextColor.GREEN
-			)
+			Component.text(
+				"Item: " +
+				material.name() +
+				" " +
+				itemIdString +
+				" " +
+				itemIdString
+			).color(NamedTextColor.GREEN)
 		);
 		return true;
 	}

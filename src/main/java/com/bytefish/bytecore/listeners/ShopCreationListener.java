@@ -168,15 +168,13 @@ public class ShopCreationListener implements Listener {
 				);
 			}
 
-			Material sellingMaterial = Material.matchMaterial(
+			Material sellingMaterial = getMaterialFromInput(
 				sellingParts[1].trim()
 			);
-			Material priceMaterial = Material.matchMaterial(
-				priceParts[1].trim()
-			);
+			Material priceMaterial = getMaterialFromInput(priceParts[1].trim());
 
 			if (sellingMaterial == null || priceMaterial == null) {
-				throw new IllegalArgumentException("Invalid item name");
+				throw new IllegalArgumentException("Invalid item name or ID");
 			}
 
 			return new ShopParseResult(
@@ -187,6 +185,17 @@ public class ShopCreationListener implements Listener {
 			);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("Invalid number format");
+		}
+	}
+
+	private Material getMaterialFromInput(String input) {
+		try {
+			int itemId = Integer.parseInt(input);
+			return Material.values()[itemId]; // Get Material by its ordinal value
+		} catch (NumberFormatException e) {
+			return Material.matchMaterial(input);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return null; // or handle it as you see fit
 		}
 	}
 
@@ -237,9 +246,9 @@ public class ShopCreationListener implements Listener {
 				1,
 				Component.text()
 					.append(
-						Component.text(result.sellingAmount).color(
-							NamedTextColor.YELLOW
-						)
+						Component.text(
+							String.valueOf(result.sellingAmount)
+						).color(NamedTextColor.YELLOW) // Convert int to String
 					)
 					.append(Component.text("×").color(NamedTextColor.WHITE))
 					.append(
@@ -254,9 +263,9 @@ public class ShopCreationListener implements Listener {
 				3,
 				Component.text()
 					.append(
-						Component.text(result.priceAmount).color(
-							NamedTextColor.YELLOW
-						)
+						Component.text(
+							String.valueOf(result.priceAmount)
+						).color(NamedTextColor.YELLOW) // Convert int to String
 					)
 					.append(Component.text("×").color(NamedTextColor.WHITE))
 					.append(
