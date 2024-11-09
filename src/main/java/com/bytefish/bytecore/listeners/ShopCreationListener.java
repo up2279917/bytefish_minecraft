@@ -199,12 +199,15 @@ public class ShopCreationListener implements Listener {
 		}
 	}
 
-	private String formatItemName(String name) {
+	private String formatItemName(String name, int amount) {
+		String amountString = String.valueOf(amount) + "x"; // Include quantity
 		String formattedName = name.toLowerCase().replace('_', ' ').trim();
-		if (formattedName.length() > 15) {
-			return formattedName.substring(0, 15);
+
+		int availableLength = 15 - amountString.length();
+		if (formattedName.length() > availableLength) {
+			return formattedName.substring(0, availableLength); // Truncate to fit
 		}
-		return formattedName;
+		return formattedName; // Return the full name if it fits
 	}
 
 	private String truncateToSignLimit(String itemName) {
@@ -260,38 +263,42 @@ public class ShopCreationListener implements Listener {
 				Component.text()
 					.append(
 						Component.text(
-							String.valueOf(result.sellingAmount)
-						).color(NamedTextColor.YELLOW)
+							String.valueOf(result.sellingAmount),
+							NamedTextColor.YELLOW
+						)
 					)
-					.append(Component.text("×").color(NamedTextColor.WHITE))
+					.append(Component.text("×", NamedTextColor.WHITE))
 					.append(
 						Component.text(
 							formatItemName(
-								result.sellingItem.getType().name() +
-								" " +
-								result.sellingItem
-									.getType()
-									.toString()
-									.toLowerCase()
-							)
-						).color(NamedTextColor.AQUA)
+								result.sellingItem.getType().name(),
+								result.sellingAmount
+							),
+							NamedTextColor.AQUA
+						)
 					)
 					.build()
 			);
+
 			event.line(2, Component.text("For").color(NamedTextColor.GOLD));
 			event.line(
 				3,
 				Component.text()
 					.append(
 						Component.text(
-							String.valueOf(result.priceAmount)
-						).color(NamedTextColor.YELLOW)
+							String.valueOf(result.priceAmount),
+							NamedTextColor.YELLOW
+						)
 					)
-					.append(Component.text("×").color(NamedTextColor.WHITE))
+					.append(Component.text("×", NamedTextColor.WHITE))
 					.append(
 						Component.text(
-							formatItemName(result.priceItem.getType().name())
-						).color(NamedTextColor.AQUA)
+							formatItemName(
+								result.priceItem.getType().name(),
+								result.priceAmount
+							),
+							NamedTextColor.AQUA
+						)
 					)
 					.build()
 			);

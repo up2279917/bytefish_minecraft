@@ -248,6 +248,7 @@ public class SignListener implements Listener {
 			firstLine.equalsIgnoreCase("Selling") ||
 			firstLine.equalsIgnoreCase("Location")
 		) {
+			event.setCancelled(true);
 			return;
 		}
 
